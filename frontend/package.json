@@ -2,6 +2,9 @@
   "name": "portfolioos-frontend",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": "18.x"
+  },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -17,6 +20,5 @@
   "browserslist": {
     "production": [">0.2%", "not dead"],
     "development": ["last 1 chrome version"]
-  },
-  "proxy": "http://localhost:5000"
+  }
 }
