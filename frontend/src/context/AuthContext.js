@@ -3,9 +3,9 @@ import axios from 'axios';
 
 const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
-export const SERVER = 'http://localhost:5000';
+export const SERVER = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
-export const API = axios.create({ baseURL: '/api' });
+export const API = axios.create({ baseURL: process.env.REACT_APP_API_URL ? `${process.env.REACT_APP_API_URL}/api` : '/api' });
 API.interceptors.request.use(cfg => {
   const t = localStorage.getItem('token');
   if (t) cfg.headers.Authorization = `Bearer ${t}`;
