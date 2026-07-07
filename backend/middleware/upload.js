@@ -1,21 +1,12 @@
 const multer = require('multer');
-const path   = require('path');
-const fs     = require('fs');
 
-const dir = path.join(__dirname, '..', 'uploads');
-if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, dir),
-  filename:    (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    const prefix = file.fieldname === 'image' ? 'project' : 'avatar';
-    cb(null, `${prefix}-${req.user._id}-${Date.now()}${ext}`);
-  },
-});
+// Vercel's serverless functions have a read-only, ephemeral filesystem, so we
+// can't save files to disk (they'd disappear immediately). Instead we keep the
+// upload in memory as a buffer and hand it to Cloudinary (see utils/cloudinary.js).
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
-  const ok = ['image/jpeg','image/jpg','image/png','image/webp'].includes(file.mimetype);
+  const ok = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'].includes(file.mimetype);
   ok ? cb(null, true) : cb(new Error('Only jpg / png / webp images allowed'), false);
 };
 

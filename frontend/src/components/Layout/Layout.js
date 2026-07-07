@@ -38,9 +38,9 @@ export default function Layout() {
         <div style={s.sidebarTop}>
           <div style={s.brandRow}>
             <span style={s.brandName}>PortfolioOS</span>
-            <span style={s.brandPill}>PMS</span>
+            <span style={s.brandPill}>CMS</span>
           </div>
-          <p style={s.brandSub}>Portfolio Management System</p>
+          <p style={s.brandSub}>Portfolio CMS Dashboard</p>
         </div>
 
         {/* Navigation */}

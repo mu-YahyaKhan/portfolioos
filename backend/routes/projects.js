@@ -4,12 +4,14 @@ const Project  = require('../models/Project');
 const Activity = require('../models/Activity');
 const upload   = require('../middleware/upload');
 const { protect } = require('../middleware/auth');
+const { uploadBuffer } = require('../utils/cloudinary');
 
 // POST /api/projects/upload-image — upload a project cover image, returns its URL
 router.post('/upload-image', protect, upload.single('image'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
-    res.json({ message: 'Image uploaded', url: `/uploads/${req.file.filename}` });
+    const result = await uploadBuffer(req.file.buffer, 'portfolioos/projects');
+    res.json({ message: 'Image uploaded', url: result.secure_url });
   } catch (err) { res.status(500).json({ message: err.message }); }
 });
 

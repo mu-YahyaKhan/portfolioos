@@ -4,6 +4,7 @@ const User    = require('../models/User');
 const Activity = require('../models/Activity');
 const { protect } = require('../middleware/auth');
 const upload  = require('../middleware/upload');
+const { uploadBuffer } = require('../utils/cloudinary');
 
 // GET /api/portfolio
 router.get('/', protect, async (req, res) => {
@@ -29,7 +30,8 @@ router.put('/', protect, async (req, res) => {
 router.post('/avatar', protect, upload.single('avatar'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
-    const avatarPath = `/uploads/${req.file.filename}`;
+    const result = await uploadBuffer(req.file.buffer, 'portfolioos/avatars');
+    const avatarPath = result.secure_url;
     const user = await User.findByIdAndUpdate(req.user._id, { $set: { avatar: avatarPath } }, { new: true });
     res.json({ message: 'Avatar uploaded', portfolio: user, avatar: avatarPath });
     await Activity.log(req.user._id, 'avatar_updated', 'Updated profile image');
