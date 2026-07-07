@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useAuth, SERVER } from '../../context/AuthContext';
+import { useAuth, resolveImg } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
 
 const TABS = ['Personal', 'About', 'Contact', 'Security'];
@@ -93,7 +93,7 @@ export default function ProfilePage() {
       <div className="card" style={{ marginBottom: 20, display: 'flex', alignItems: 'center', gap: 24 }}>
         <div style={s.avatarBig}>
           {user?.avatar
-            ? <img src={`${SERVER}${user.avatar}`} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            ? <img src={`${resolveImg(user.avatar)}`} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             : initials}
         </div>
         <div>

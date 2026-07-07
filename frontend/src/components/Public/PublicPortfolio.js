@@ -1,5 +1,5 @@
 import React from 'react';
-import { SERVER } from '../../context/AuthContext';
+import { resolveImg } from '../../context/AuthContext';
 
 export default function PublicPortfolio({ profile, projects = [], skills = [], categories = [] }) {
   const initials = profile?.name?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || 'P';
@@ -18,7 +18,7 @@ export default function PublicPortfolio({ profile, projects = [], skills = [], c
       <section style={s.hero}>
         <div style={s.avatar}>
           {profile?.avatar
-            ? <img src={`${SERVER}${profile.avatar}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            ? <img src={`${resolveImg(profile.avatar)}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             : initials}
         </div>
         <h1 style={s.heroName}>{profile?.name || 'Your Name'}</h1>
@@ -69,7 +69,7 @@ export default function PublicPortfolio({ profile, projects = [], skills = [], c
               <div key={p._id} className="card" style={{ padding: 0, overflow: 'hidden' }}>
                 {p.imageUrl && (
                   <div style={s.imgWrap}>
-                    <img src={p.imageUrl.startsWith('/uploads') ? `${SERVER}${p.imageUrl}` : p.imageUrl} alt={p.title} style={s.img} onError={e => { e.target.parentElement.style.display = 'none'; }} />
+                    <img src={resolveImg(p.imageUrl)} alt={p.title} style={s.img} onError={e => { e.target.parentElement.style.display = 'none'; }} />
                   </div>
                 )}
                 <div style={{ padding: 18 }}>

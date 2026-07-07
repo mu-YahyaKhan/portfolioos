@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { useAuth, SERVER } from '../../context/AuthContext';
+import { useAuth, resolveImg } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
 
 const STATUSES = ['Completed','In Progress','On Hold'];
 const DEF = { title: '', description: '', longDescription: '', techStack: '', category: '', status: 'Completed', liveUrl: '', githubUrl: '', imageUrl: '', featured: false };
 
 const statusClass = s => s === 'Completed' ? 'badge badge-success' : s === 'In Progress' ? 'badge badge-warning' : 'badge badge-default';
-const resolveImg  = url => (url && url.startsWith('/uploads')) ? `${SERVER}${url}` : url;
 
 export default function ProjectsPage() {
   const { API } = useAuth();

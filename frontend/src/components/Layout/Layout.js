@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { useAuth, SERVER } from '../../context/AuthContext';
+import { useAuth, resolveImg } from '../../context/AuthContext';
 import NotificationBell from './NotificationBell';
 import toast from 'react-hot-toast';
 
@@ -61,7 +61,7 @@ export default function Layout() {
           <div style={s.userRow}>
             <div style={s.avatar}>
               {user?.avatar
-                ? <img src={`${SERVER}${user.avatar}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                ? <img src={`${resolveImg(user.avatar)}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 : initials}
             </div>
             <div style={{ minWidth: 0 }}>
@@ -93,7 +93,7 @@ export default function Layout() {
             <NotificationBell />
             <div style={s.avatarSm}>
               {user?.avatar
-                ? <img src={`${SERVER}${user.avatar}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                ? <img src={`${resolveImg(user.avatar)}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 : initials}
             </div>
           </div>

@@ -6,6 +6,11 @@ export const useAuth = () => useContext(AuthContext);
 export const SERVER = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 export const API = axios.create({ baseURL: `${SERVER}/api` });
+
+// Avatars/images may be old local-upload paths (e.g. "/uploads/xyz.png") or
+// full Cloudinary URLs (e.g. "https://res.cloudinary.com/..."). Only prefix
+// with SERVER when it's a relative local-upload path.
+export const resolveImg = url => (url && url.startsWith('/uploads')) ? `${SERVER}${url}` : url;
 API.interceptors.request.use(cfg => {
   const t = localStorage.getItem('token');
   if (t) cfg.headers.Authorization = `Bearer ${t}`;
