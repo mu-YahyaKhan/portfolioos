@@ -1,6 +1,6 @@
 {
   "short_name": "PortfolioOS",
-  "name": "PortfolioOS — CMS Dashboard",
+  "name": "PortfolioOS — Portfolio Management System",
   "icons": [
     { "src": "favicon.ico", "sizes": "16x16 32x32 64x64", "type": "image/x-icon" },
     { "src": "favicon.svg", "type": "image/svg+xml", "sizes": "any" },
