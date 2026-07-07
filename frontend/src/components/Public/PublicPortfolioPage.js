@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import { API } from '../../context/AuthContext';
 import PublicPortfolio from './PublicPortfolio';
 
 export default function PublicPortfolioPage() {
@@ -12,7 +12,7 @@ export default function PublicPortfolioPage() {
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
-    axios.get(`/api/public/${userId}`)
+    API.get(`/public/${userId}`)
       .then(r => { if (!cancelled) setData(r.data); })
       .catch(() => { if (!cancelled) setError('This portfolio could not be found.'); })
       .finally(() => { if (!cancelled) setLoading(false); });
