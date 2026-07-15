@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import LoginPage    from './components/Auth/LoginPage';
 import RegisterPage from './components/Auth/RegisterPage';
 import Layout       from './components/Layout/Layout';
@@ -53,18 +54,20 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <AppRoutes />
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            style: { background: '#fff', color: '#1e2235', border: '1px solid #e6e8f1', fontSize: '13.5px', fontFamily: 'Inter, sans-serif', boxShadow: '0 8px 20px rgba(79,70,229,0.08)' },
-            success: { iconTheme: { primary: '#15803d', secondary: '#fff' } },
-            error:   { iconTheme: { primary: '#b91c1c', secondary: '#fff' } },
-          }}
-        />
-      </Router>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <Router>
+          <AppRoutes />
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              style: { background: 'var(--bg-card)', color: 'var(--text-1)', border: '1px solid var(--border)', fontSize: '13.5px', fontFamily: 'Inter, sans-serif', boxShadow: '0 8px 20px rgba(79,70,229,0.08)' },
+              success: { iconTheme: { primary: '#15803d', secondary: '#fff' } },
+              error:   { iconTheme: { primary: '#b91c1c', secondary: '#fff' } },
+            }}
+          />
+        </Router>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }

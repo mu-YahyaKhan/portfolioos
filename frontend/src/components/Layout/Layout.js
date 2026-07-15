@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth, resolveImg } from '../../context/AuthContext';
 import NotificationBell from './NotificationBell';
+import ThemeToggle from './ThemeToggle';
 import toast from 'react-hot-toast';
 
 const nav = [
@@ -96,6 +97,7 @@ export default function Layout() {
             <span className="header-date" style={s.headerDate}>
               {new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
             </span>
+            <ThemeToggle />
             <NotificationBell />
             <div style={s.avatarSm}>
               {user?.avatar

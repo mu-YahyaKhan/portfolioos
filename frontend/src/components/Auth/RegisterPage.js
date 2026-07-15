@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import ThemeToggle from '../Layout/ThemeToggle';
 import toast from 'react-hot-toast';
 
 export default function RegisterPage() {
@@ -27,6 +28,7 @@ export default function RegisterPage() {
 
   return (
     <div style={s.page}>
+      <ThemeToggle style={{ position: 'absolute', top: 20, right: 20 }} />
       <div style={s.box}>
         <div style={s.brand}>PortfolioOS</div>
         <h1 style={s.title}>Create your account</h1>
