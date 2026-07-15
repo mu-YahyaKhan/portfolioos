@@ -80,7 +80,13 @@ export default function Layout() {
         {/* Top header */}
         <header className="app-header" style={s.header}>
           <div className="header-left" style={s.headerLeft}>
-            <button className="menu-btn" style={s.menuBtn} onClick={() => setOpen(true)}>Menu</button>
+            <button className="menu-btn" style={s.menuBtn} onClick={() => setOpen(true)} aria-label="Open menu">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </button>
             <span className="header-title" style={s.pageTitle}>{pageTitle}</span>
           </div>
           <div className="header-right" style={s.headerRight}>
@@ -139,7 +145,7 @@ const s = {
   main:    { flex: 1, marginLeft: 230, display: 'flex', flexDirection: 'column', minHeight: '100vh' },
   header:  { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 32px', height: 56, background: 'var(--white)', borderBottom: '1px solid var(--border)', position: 'sticky', top: 0, zIndex: 50 },
   headerLeft:  { display: 'flex', alignItems: 'center', gap: 14 },
-  menuBtn:     { background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 'var(--r-sm)', padding: '5px 11px', fontSize: 12, fontWeight: 600, color: 'var(--text-2)', display: 'none' },
+  menuBtn:     { background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 'var(--r-sm)', width: 32, height: 32, display: 'none', alignItems: 'center', justifyContent: 'center', color: 'var(--text-2)', flexShrink: 0 },
   pageTitle:   { fontSize: 14.5, fontWeight: 700, color: 'var(--text-1)' },
   headerRight: { display: 'flex', alignItems: 'center', gap: 14 },
   headerDate:  { fontSize: 12, color: 'var(--text-3)' },
