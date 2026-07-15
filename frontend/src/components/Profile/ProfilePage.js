@@ -55,6 +55,19 @@ export default function ProfilePage() {
     } catch (err) {
       toast.error(err.response?.data?.message || 'Upload failed');
     } finally { setUploading(false); }
+    e.target.value = ''; // allow re-selecting the same file next time
+  };
+
+  const handleRemoveAvatar = async () => {
+    if (!window.confirm('Remove your profile image?')) return;
+    setUploading(true);
+    try {
+      const { data } = await API.delete('/portfolio/avatar');
+      updateUser(data.portfolio);
+      toast.success('Profile image removed');
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to remove image');
+    } finally { setUploading(false); }
   };
 
   const handleChangePassword = async () => {
@@ -103,6 +116,11 @@ export default function ProfilePage() {
           <button className="btn btn-secondary btn-sm" onClick={() => fileRef.current.click()} disabled={uploading}>
             {uploading ? 'Uploading...' : 'Upload Profile Image'}
           </button>
+          {user?.avatar && (
+            <button className="btn btn-danger btn-sm" onClick={handleRemoveAvatar} disabled={uploading} style={{ marginLeft: 8 }}>
+              Remove Photo
+            </button>
+          )}
           <p style={{ fontSize: 11.5, color: 'var(--text-3)', marginTop: 6 }}>JPG, PNG or WebP. Max 5 MB.</p>
         </div>
       </div>
@@ -169,17 +187,15 @@ export default function ProfilePage() {
               <input type="password" value={pwForm.currentPassword}
                 onChange={e => setPwForm({ ...pwForm, currentPassword: e.target.value })} placeholder="••••••••" />
             </div>
-            <div className="form-row" style={{ maxWidth: 360 }}>
-              <div className="form-group">
-                <label>New Password</label>
-                <input type="password" value={pwForm.newPassword}
-                  onChange={e => setPwForm({ ...pwForm, newPassword: e.target.value })} placeholder="At least 6 characters" />
-              </div>
-              <div className="form-group">
-                <label>Confirm New Password</label>
-                <input type="password" value={pwForm.confirmPassword}
-                  onChange={e => setPwForm({ ...pwForm, confirmPassword: e.target.value })} placeholder="Re-enter new password" />
-              </div>
+            <div className="form-group" style={{ maxWidth: 360 }}>
+              <label>New Password</label>
+              <input type="password" value={pwForm.newPassword}
+                onChange={e => setPwForm({ ...pwForm, newPassword: e.target.value })} placeholder="At least 6 characters" />
+            </div>
+            <div className="form-group" style={{ maxWidth: 360 }}>
+              <label>Confirm New Password</label>
+              <input type="password" value={pwForm.confirmPassword}
+                onChange={e => setPwForm({ ...pwForm, confirmPassword: e.target.value })} placeholder="Re-enter new password" />
             </div>
             <button className="btn btn-primary" onClick={handleChangePassword} disabled={pwSaving} style={{ marginTop: 6 }}>
               {pwSaving ? 'Updating...' : 'Update Password'}

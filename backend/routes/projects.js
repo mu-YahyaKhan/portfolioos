@@ -4,7 +4,7 @@ const Project  = require('../models/Project');
 const Activity = require('../models/Activity');
 const upload   = require('../middleware/upload');
 const { protect } = require('../middleware/auth');
-const { uploadBuffer } = require('../utils/cloudinary');
+const { uploadBuffer, deleteByUrl } = require('../utils/cloudinary');
 
 // POST /api/projects/upload-image — upload a project cover image, returns its URL
 router.post('/upload-image', protect, upload.single('image'), async (req, res) => {
@@ -66,11 +66,27 @@ router.put('/:id', protect, async (req, res) => {
   try {
     const project = await Project.findOne({ _id: req.params.id, user: req.user._id });
     if (!project) return res.status(404).json({ message: 'Project not found' });
+    const oldImageUrl = project.imageUrl;
     const fields = ['title','description','longDescription','techStack','category','liveUrl','githubUrl','imageUrl','status','featured'];
     fields.forEach(f => { if (req.body[f] !== undefined) project[f] = req.body[f]; });
     await project.save();
+    if (req.body.imageUrl !== undefined && oldImageUrl && oldImageUrl !== project.imageUrl) {
+      await deleteByUrl(oldImageUrl); // old cover image was replaced or removed
+    }
     res.json({ message: 'Project updated', project });
     await Activity.log(req.user._id, 'project_updated', `Updated project "${project.title}"`);
+  } catch (err) { res.status(500).json({ message: err.message }); }
+});
+
+// DELETE /api/projects/:id/image — remove just the cover image, keep the project
+router.delete('/:id/image', protect, async (req, res) => {
+  try {
+    const project = await Project.findOne({ _id: req.params.id, user: req.user._id });
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+    if (project.imageUrl) await deleteByUrl(project.imageUrl);
+    project.imageUrl = '';
+    await project.save();
+    res.json({ message: 'Image removed', project });
   } catch (err) { res.status(500).json({ message: err.message }); }
 });
 
@@ -78,6 +94,7 @@ router.delete('/:id', protect, async (req, res) => {
   try {
     const project = await Project.findOneAndDelete({ _id: req.params.id, user: req.user._id });
     if (!project) return res.status(404).json({ message: 'Project not found' });
+    if (project.imageUrl) await deleteByUrl(project.imageUrl); // clean up its cover image too
     res.json({ message: 'Project deleted' });
     await Activity.log(req.user._id, 'project_deleted', `Deleted project "${project.title}"`);
   } catch (err) { res.status(500).json({ message: err.message }); }

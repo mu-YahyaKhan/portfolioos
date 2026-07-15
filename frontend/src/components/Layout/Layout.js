@@ -78,16 +78,16 @@ export default function Layout() {
       {/* Content area */}
       <div className="app-main" style={s.main}>
         {/* Top header */}
-        <header style={s.header}>
-          <div style={s.headerLeft}>
+        <header className="app-header" style={s.header}>
+          <div className="header-left" style={s.headerLeft}>
             <button className="menu-btn" style={s.menuBtn} onClick={() => setOpen(true)}>Menu</button>
-            <span style={s.pageTitle}>{pageTitle}</span>
+            <span className="header-title" style={s.pageTitle}>{pageTitle}</span>
           </div>
-          <div style={s.headerRight}>
-            <a href={`/portfolio/${user?.id || user?._id}`} target="_blank" rel="noreferrer" className="btn btn-secondary btn-sm" style={{ display: window.innerWidth < 480 ? 'none' : 'inline-flex' }}>
+          <div className="header-right" style={s.headerRight}>
+            <a href={`/portfolio/${user?.id || user?._id}`} target="_blank" rel="noreferrer" className="btn btn-secondary btn-sm view-public-btn">
               View Public Page
             </a>
-            <span style={s.headerDate}>
+            <span className="header-date" style={s.headerDate}>
               {new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
             </span>
             <NotificationBell />

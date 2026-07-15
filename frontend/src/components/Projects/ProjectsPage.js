@@ -282,6 +282,12 @@ export default function ProjectsPage() {
                   <button type="button" className="btn btn-secondary btn-sm" onClick={() => fileRef.current.click()} disabled={uploadingImg}>
                     {uploadingImg ? 'Uploading...' : 'Upload Image'}
                   </button>
+                  {form.imageUrl && (
+                    <button type="button" className="btn btn-danger btn-sm" onClick={() => setForm(f => ({ ...f, imageUrl: '' }))}
+                      disabled={uploadingImg} style={{ marginLeft: 8 }}>
+                      Remove
+                    </button>
+                  )}
                   <input value={form.imageUrl} onChange={set('imageUrl')} placeholder="or paste an image URL"
                     style={{ marginTop: 8 }} />
                 </div>
